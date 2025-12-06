@@ -20,6 +20,8 @@
                         'brand-deep-purple': '#413659',
                         'brand-light-grey': '#F2F2F2',
                         'brand-muted-purple': '#9C7F9D',
+                        // A brighter purple for the action button to make it pop
+                        'brand-action-purple': '#8A6EAF',
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -32,20 +34,21 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #F6F5F8; /* brand-light-grey */
+            background-color: #F6F5F8; /* brand-light-greyish */
         }
 
         /* Style for the navigation links */
         .nav-link {
-            transition: background-color 0.2s, color 0.2s, transform 0.2s;
+            transition: all 0.2s ease;
             background-color: white;
             color: #413659; /* brand-deep-purple */
             border: 2px solid #C6B4D9; /* brand-light-purple */
         }
 
         .nav-link:hover {
-            background-color: #f0ebf9; /* A lighter version of light-purple */
-            transform: translateX(2px);
+            background-color: #f0ebf9; 
+            transform: translateX(4px);
+            border-color: #513873;
         }
 
         /* Style for the active navigation link */
@@ -54,11 +57,18 @@
             color: white;
             border-color: #513873; /* brand-dark-purple */
             font-weight: 600;
+            box-shadow: 0 4px 6px -1px rgba(81, 56, 115, 0.2);
         }
 
         /* Hide content panels by default */
         .content-panel {
             display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* Show the active content panel */
@@ -69,74 +79,112 @@
         /* Custom list styles */
         .info-list li {
             position: relative;
-            padding-left: 1.75rem; /* Make space for the icon */
-            margin-bottom: 0.75rem; /* space-y-3 */
-            font-size: 1.125rem; /* text-lg */
+            padding-left: 2rem; 
+            margin-bottom: 0.75rem; 
+            font-size: 1.125rem; 
+            line-height: 1.6;
         }
         /* Custom bullet icon */
         .info-list li::before {
             content: '•';
             position: absolute;
             left: 0.5rem;
-            top: 0;
+            top: -0.1rem;
             color: #513873; /* brand-dark-purple */
             font-weight: bold;
-            font-size: 1.25rem;
+            font-size: 1.5rem;
         }
 
-        /* Suggestion button style */
+        /* Suggestion button style - UPDATED */
         .suggestion-btn {
-            background-color: #9C7F9D; /* brand-muted-purple */
+            background-color: #8A6EAF; /* Changed to a new, brighter purple */
             color: white;
-            transition: background-color 0.2s;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem; /* Space between icon and text */
+            box-shadow: 0 4px 6px -1px rgba(138, 110, 175, 0.3);
         }
         .suggestion-btn:hover {
-            background-color: #513873; /* brand-dark-purple */
+            background-color: #513873; /* brand-dark-purple on hover */
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(138, 110, 175, 0.4);
+        }
+        .suggestion-btn:active {
+            transform: translateY(0);
         }
 
         /* Modal styles */
         .modal {
             transition: opacity 0.3s ease;
         }
+        .modal-content {
+            animation: scaleUp 0.3s ease-out;
+        }
+        @keyframes scaleUp {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
     </style>
 </head>
 <body class="flex items-center justify-center min-h-screen p-4 md:p-8">
 
-    <div class="w-full max-w-4xl mx-auto bg-white p-6 sm:p-8 rounded-2xl shadow-xl">
+    <div class="w-full max-w-4xl mx-auto bg-white p-6 sm:p-8 rounded-2xl shadow-xl border-t-4 border-brand-dark-purple">
         
         <div class="text-center mb-8">
-            <h1 class="text-3xl md:text-4xl font-bold text-brand-deep-purple mb-4">
+            <h1 class="text-3xl md:text-4xl font-bold text-brand-deep-purple mb-3">
                 Signs You Might Need a Break
             </h1>
-            <p class="text-lg text-gray-700 mt-2">
-                Select a category to learn more.
+            <p class="text-lg text-gray-600">
+                Select a category below to check in with yourself.
             </p>
         </div>
 
-        <div class="flex flex-col md:flex-row gap-6 md:gap-8">
+        <div class="flex flex-col md:flex-row gap-6 md:gap-10">
             <!-- Navigation Menu -->
             <aside class="w-full md:w-1/3">
                 <nav id="signs-nav" class="flex flex-col space-y-3">
-                    <button class="nav-link p-4 rounded-lg text-left text-lg font-medium active" data-target="content-physical">
-                        How Your Body Feels
+                    <button class="nav-link p-4 rounded-xl text-left text-lg font-medium active flex items-center justify-between group" data-target="content-physical">
+                        <span>How Your Body Feels</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
                     </button>
-                    <button class="nav-link p-4 rounded-lg text-left text-lg font-medium" data-target="content-emotional">
-                        How You Are Feeling
+                    <button class="nav-link p-4 rounded-xl text-left text-lg font-medium flex items-center justify-between group" data-target="content-emotional">
+                        <span>How You Are Feeling</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
                     </button>
-                    <button class="nav-link p-4 rounded-lg text-left text-lg font-medium" data-target="content-mental">
-                        How You Are Thinking
+                    <button class="nav-link p-4 rounded-xl text-left text-lg font-medium flex items-center justify-between group" data-target="content-mental">
+                        <span>How You Are Thinking</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
                     </button>
                 </nav>
             </aside>
 
             <!-- Content Display Area -->
-            <main class="w-full md:w-2/3 bg-brand-light-grey p-6 rounded-lg min-h-[300px]">
-                <div id="content-area" class="relative">
+            <main class="w-full md:w-2/3 bg-brand-light-grey p-6 sm:p-8 rounded-2xl min-h-[350px] relative overflow-hidden">
+                <!-- Decorative background circle -->
+                <div class="absolute top-0 right-0 -mt-10 -mr-10 w-32 h-32 bg-brand-light-purple opacity-20 rounded-full blur-2xl pointer-events-none"></div>
+
+                <div id="content-area" class="relative z-10">
                     
                     <!-- Physical Signs Panel -->
                     <div id="content-physical" class="content-panel active">
-                        <h2 class="text-2xl font-semibold text-brand-deep-purple mb-4">How Your Body Feels</h2>
-                        <ul class="info-list text-brand-deep-purple">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="p-2 bg-white rounded-lg shadow-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-brand-dark-purple" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                </svg>
+                            </div>
+                            <h2 class="text-2xl font-bold text-brand-deep-purple">How Your Body Feels</h2>
+                        </div>
+                        
+                        <ul class="info-list text-brand-deep-purple font-medium">
                             <li>Tense muscles (shoulders, jaw)</li>
                             <li>Faster heartbeat</li>
                             <li>Short of breath</li>
@@ -145,37 +193,71 @@
                             <li>Suddenly feeling very tired</li>
                         </ul>
                         <!-- NEW: Suggestion Button -->
-                        <button class="suggestion-btn mt-6 w-full py-3 px-4 rounded-lg font-semibold text-lg" data-target="physical">
+                        <button class="suggestion-btn mt-8 w-full py-3.5 px-6 rounded-xl font-bold text-lg" data-target="physical">
+                            <!-- Icon Changed to Thinking Person with Question Marks -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                                <path d="M12 17h.01"/>
+                            </svg>
                             What Can I Do?
                         </button>
                     </div>
 
                     <!-- Emotional Signs Panel -->
                     <div id="content-emotional" class="content-panel">
-                        <h2 class="text-2xl font-semibold text-brand-deep-purple mb-4">How You Are Feeling</h2>
-                        <ul class="info-list text-brand-deep-purple">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="p-2 bg-white rounded-lg shadow-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-brand-dark-purple" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                </svg>
+                            </div>
+                            <h2 class="text-2xl font-bold text-brand-deep-purple">How You Are Feeling</h2>
+                        </div>
+
+                        <ul class="info-list text-brand-deep-purple font-medium">
                             <li>Feeling suddenly sad or angry</li>
                             <li>Feeling anxious</li>
                             <li>Feeling overwhelmed ("too much")</li>
                             <li>Feeling "numb" or disconnected</li>
                         </ul>
                         <!-- NEW: Suggestion Button -->
-                        <button class="suggestion-btn mt-6 w-full py-3 px-4 rounded-lg font-semibold text-lg" data-target="emotional">
+                        <button class="suggestion-btn mt-8 w-full py-3.5 px-6 rounded-xl font-bold text-lg" data-target="emotional">
+                            <!-- Icon Changed to Thinking Person with Question Marks -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                                <path d="M12 17h.01"/>
+                            </svg>
                             What Can I Do?
                         </button>
                     </div>
 
                     <!-- Mental Signs Panel -->
                     <div id="content-mental" class="content-panel">
-                        <h2 class="text-2xl font-semibold text-brand-deep-purple mb-4">How You Are Thinking</h2>
-                        <ul class="info-list text-brand-deep-purple">
+                         <div class="flex items-center gap-3 mb-6">
+                            <div class="p-2 bg-white rounded-lg shadow-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-brand-dark-purple" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                                </svg>
+                            </div>
+                            <h2 class="text-2xl font-bold text-brand-deep-purple">How You Are Thinking</h2>
+                        </div>
+                        
+                        <ul class="info-list text-brand-deep-purple font-medium">
                             <li>Hard to focus</li>
                             <li>Having to re-read the same sentence</li>
                             <li>Feeling "spaced out" or "foggy"</li>
                             <li>Thinking about your own experiences</li>
                         </ul>
                         <!-- NEW: Suggestion Button -->
-                        <button class="suggestion-btn mt-6 w-full py-3 px-4 rounded-lg font-semibold text-lg" data-target="mental">
+                        <button class="suggestion-btn mt-8 w-full py-3.5 px-6 rounded-xl font-bold text-lg" data-target="mental">
+                            <!-- Icon Changed to Thinking Person with Question Marks -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                                <path d="M12 17h.01"/>
+                            </svg>
                             What Can I Do?
                         </button>
                     </div>
@@ -184,15 +266,27 @@
         </div>
     </div>
 
-    <!-- NEW: Suggestion Modal -->
-    <div id="suggestion-modal" class="modal fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-75 hidden">
-        <div class="bg-white w-full max-w-md p-6 rounded-2xl shadow-xl m-4">
-            <h3 id="modal-title" class="text-2xl font-bold text-brand-deep-purple mb-4"></h3>
-            <ul id="modal-suggestions" class="info-list text-brand-deep-purple mb-6">
+    <!-- Suggestion Modal -->
+    <div id="suggestion-modal" class="modal fixed inset-0 z-50 flex items-center justify-center p-4 bg-brand-deep-purple bg-opacity-80 hidden backdrop-blur-sm">
+        <div class="modal-content bg-white w-full max-w-md p-8 rounded-2xl shadow-2xl m-4 relative overflow-hidden">
+             <!-- Decorative background blur -->
+             <div class="absolute top-0 right-0 -mt-6 -mr-6 w-24 h-24 bg-brand-light-purple opacity-30 rounded-full blur-xl pointer-events-none"></div>
+
+            <div class="flex items-center gap-3 mb-6">
+                <div class="p-2 bg-brand-light-grey rounded-full">
+                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-brand-dark-purple" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <h3 id="modal-title" class="text-2xl font-bold text-brand-deep-purple"></h3>
+            </div>
+
+            <ul id="modal-suggestions" class="info-list text-brand-deep-purple mb-8 space-y-3">
                 <!-- Suggestions will be added here by JS -->
             </ul>
-            <button id="modal-close-btn" class="w-full py-3 px-4 rounded-lg font-semibold text-lg text-white" style="background-color: #513873;">
-                Close
+
+            <button id="modal-close-btn" class="w-full py-3 px-4 rounded-xl font-semibold text-lg text-white transition-transform hover:scale-[1.02] active:scale-[0.98] shadow-lg" style="background-color: #513873;">
+                Got it, thanks
             </button>
         </div>
     </div>
@@ -245,14 +339,22 @@
                 navLinks.forEach(link => link.classList.remove('active'));
                 targetLink.classList.add('active');
 
-                contentPanels.forEach(panel => panel.classList.remove('active'));
+                // Animate transition
+                contentPanels.forEach(panel => {
+                    panel.style.display = 'none';
+                    panel.classList.remove('active');
+                });
+                
                 const targetPanel = document.getElementById(targetId);
                 if (targetPanel) {
+                    targetPanel.style.display = 'block';
+                    // Trigger reflow to restart animation
+                    void targetPanel.offsetWidth; 
                     targetPanel.classList.add('active');
                 }
             });
 
-            // --- NEW: Modal Logic ---
+            // --- Modal Logic ---
             const modal = document.getElementById('suggestion-modal');
             const modalTitle = document.getElementById('modal-title');
             const modalSuggestions = document.getElementById('modal-suggestions');
@@ -291,8 +393,14 @@
                 }
             });
 
+            // Close modal with Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                    closeModal();
+                }
+            });
+
         });
     </script>
 </body>
 </html>
-
